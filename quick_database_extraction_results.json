@@ -1,0 +1,83 @@
+{
+  "Database Name": {
+    "status_code": 200,
+    "content_length": 1510898,
+    "sql_indicators": [
+      "table",
+      "column",
+      "master",
+      "model"
+    ],
+    "database_info": {}
+  },
+  "Version Info": {
+    "status_code": 200,
+    "content_length": 1510898,
+    "sql_indicators": [
+      "table",
+      "column",
+      "master",
+      "model"
+    ],
+    "database_info": {
+      "version_detected": true
+    }
+  },
+  "Server Name": {
+    "status_code": 200,
+    "content_length": 1510898,
+    "sql_indicators": [
+      "table",
+      "column",
+      "master",
+      "model"
+    ],
+    "database_info": {}
+  },
+  "Current User": {
+    "status_code": 200,
+    "content_length": 1510898,
+    "sql_indicators": [
+      "table",
+      "column",
+      "master",
+      "model"
+    ],
+    "database_info": {}
+  },
+  "User Tables": {
+    "status_code": 200,
+    "content_length": 1510898,
+    "sql_indicators": [
+      "table",
+      "column",
+      "master",
+      "model"
+    ],
+    "database_info": {
+      "tables_detected": true
+    }
+  },
+  "All Tables": {
+    "status_code": 200,
+    "content_length": 1510898,
+    "sql_indicators": [
+      "table",
+      "column",
+      "master",
+      "model"
+    ],
+    "database_info": {}
+  },
+  "System Databases": {
+    "status_code": 200,
+    "content_length": 1510898,
+    "sql_indicators": [
+      "table",
+      "column",
+      "master",
+      "model"
+    ],
+    "database_info": {}
+  }
+}
