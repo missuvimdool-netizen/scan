@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-08-06T00:05:02.006239",
+  "test_results": {
+    "injection_points": [
+      {
+        "url": "https://member.panama8888b.co/public/js/v2/app.js",
+        "method": "GET",
+        "params": {
+          "v": "25.1"
+        },
+        "inject_param": "v"
+      }
+    ],
+    "admin_credentials": [],
+    "database_schema": [],
+    "verified_logins": [],
+    "time_based_data": null
+  },
+  "security_impact": "MEDIUM",
+  "data_leak_confirmed": false
+}
