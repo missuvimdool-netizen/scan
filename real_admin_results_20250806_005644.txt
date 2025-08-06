@@ -1,0 +1,11 @@
+
+==================================================
+📊 สรุปผลการดึงข้อมูล Admin จากฐานข้อมูล:
+  🔓 Boolean-based SQL Injection: ✅ ดำเนินการแล้ว
+  🔓 Union-based SQL Injection: ✅ ดำเนินการแล้ว
+  🗄️ Database Schema Extraction: ✅ ดำเนินการแล้ว
+  ⏰ Time-based SQL Injection: ✅ ดำเนินการแล้ว
+  🚨 Error-based SQL Injection: ✅ ดำเนินการแล้ว
+
+💡 หมายเหตุ: ข้อมูลที่พบจะถูกบันทึกในไฟล์ real_admin_results_*.txt
+📄 ตรวจสอบไฟล์ real_admin_results_*.txt เพื่อดูข้อมูล admin ที่ดึงได้
