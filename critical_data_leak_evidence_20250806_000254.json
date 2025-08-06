@@ -1,9 +1,0 @@
-{
-  "extraction_timestamp": "2025-08-06T00:01:59.191297",
-  "admin_users": [],
-  "database_schema": {},
-  "table_data": {},
-  "blind_extraction": null,
-  "login_verification": [],
-  "data_leak_severity": "LOW"
-}
